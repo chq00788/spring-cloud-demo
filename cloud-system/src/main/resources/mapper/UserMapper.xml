@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.project.cloud.system.dao.UserDao">
+
+    <sql id="baseColumn">
+        id,
+        username,
+        password,
+        real_name,
+        phone,
+        photo,
+        usable,
+        dept_id,
+        role,
+        create_time,
+        last_login_time,
+        is_delete
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.chq.project.cloud.common.entity.system.UserModel">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="realName" column="real_name"/>
+            <result property="phone" column="phone"/>
+            <result property="photo" column="photo"/>
+            <result property="usable" column="usable"/>
+            <result property="deptId" column="dept_id"/>
+            <result property="role" column="role"/>
+            <result property="createTime" column="create_time"/>
+            <result property="lastLoginTime" column="last_login_time"/>
+            <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <sql id="selectiveWhere">
+        <where>
+
+        </where>
+    </sql>
+
+
+    <select id="selectList" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_system_user
+        <include refid="selectiveWhere"/>
+    </select>
+
+    <insert id="insert" parameterType="com.chq.project.cloud.common.entity.system.UserModel">
+        INSERT INTO t_system_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="username != null ">
+            username,
+            </if>
+            <if test="password != null ">
+            password,
+            </if>
+            <if test="realName != null ">
+            real_name,
+            </if>
+            <if test="phone != null ">
+            phone,
+            </if>
+            <if test="photo != null ">
+            photo,
+            </if>
+            <if test="usable != null ">
+            usable,
+            </if>
+            <if test="deptId != null ">
+            dept_id,
+            </if>
+            <if test="role != null ">
+            role,
+            </if>
+            <if test="createTime != null ">
+            create_time,
+            </if>
+            <if test="lastLoginTime != null ">
+            last_login_time,
+            </if>
+            <if test="isDelete != null ">
+            is_delete
+            </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="username != null ">
+            #{username},
+            </if>
+            <if test="password != null ">
+            #{password},
+            </if>
+            <if test="realName != null ">
+            #{realName},
+            </if>
+            <if test="phone != null ">
+            #{phone},
+            </if>
+            <if test="photo != null ">
+            #{photo},
+            </if>
+            <if test="usable != null ">
+            #{usable},
+            </if>
+            <if test="deptId != null ">
+            #{deptId},
+            </if>
+            <if test="role != null ">
+            #{role},
+            </if>
+            <if test="createTime != null ">
+            #{createTime},
+            </if>
+            <if test="lastLoginTime != null ">
+            #{lastLoginTime},
+            </if>
+            <if test="isDelete != null ">
+            #{isDelete}
+            </if>
+    </trim>
+    </insert>
+
+    <update id="update" parameterType="com.chq.project.cloud.common.entity.system.UserModel">
+        UPDATE t_system_user
+        <set>
+            <if test="username != null ">
+            username = #{username},
+            </if>
+            <if test="password != null ">
+            password = #{password},
+            </if>
+            <if test="realName != null ">
+            real_name = #{realName},
+            </if>
+            <if test="phone != null ">
+            phone = #{phone},
+            </if>
+            <if test="photo != null ">
+            photo = #{photo},
+            </if>
+            <if test="usable != null ">
+            usable = #{usable},
+            </if>
+            <if test="deptId != null ">
+            dept_id = #{deptId},
+            </if>
+            <if test="role != null ">
+            role = #{role},
+            </if>
+            <if test="createTime != null ">
+            create_time = #{createTime},
+            </if>
+            <if test="lastLoginTime != null ">
+            last_login_time = #{lastLoginTime},
+            </if>
+            <if test="isDelete != null ">
+            is_delete = #{isDelete},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="integer">
+        DELETE FROM t_system_user
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getById" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_system_user
+        WHERE id = #{id}
+    </select>
+
+</mapper>

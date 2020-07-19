@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.project.cloud.system.dao.RoleDao">
+
+    <sql id="baseColumn">
+        id,
+        role_name,
+        usable,
+        remark,
+        is_delete
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.chq.project.cloud.common.entity.system.RoleModel">
+            <id property="id" column="id"/>
+            <result property="roleName" column="role_name"/>
+            <result property="usable" column="usable"/>
+            <result property="remark" column="remark"/>
+            <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <sql id="selectiveWhere">
+        <where>
+
+        </where>
+    </sql>
+
+
+    <select id="selectList" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_system_role
+        <include refid="selectiveWhere"/>
+    </select>
+
+    <insert id="insert" parameterType="com.chq.project.cloud.common.entity.system.RoleModel">
+        INSERT INTO t_system_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="roleName != null ">
+            role_name,
+            </if>
+            <if test="usable != null ">
+            usable,
+            </if>
+            <if test="remark != null ">
+            remark,
+            </if>
+            <if test="isDelete != null ">
+            is_delete
+            </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="roleName != null ">
+            #{roleName},
+            </if>
+            <if test="usable != null ">
+            #{usable},
+            </if>
+            <if test="remark != null ">
+            #{remark},
+            </if>
+            <if test="isDelete != null ">
+            #{isDelete}
+            </if>
+    </trim>
+    </insert>
+
+    <update id="update" parameterType="com.chq.project.cloud.common.entity.system.RoleModel">
+        UPDATE t_system_role
+        <set>
+            <if test="roleName != null ">
+            role_name = #{roleName},
+            </if>
+            <if test="usable != null ">
+            usable = #{usable},
+            </if>
+            <if test="remark != null ">
+            remark = #{remark},
+            </if>
+            <if test="isDelete != null ">
+            is_delete = #{isDelete},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="integer">
+        DELETE FROM t_system_role
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getById" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_system_role
+        WHERE id = #{id}
+    </select>
+
+    <insert id="setRoleMenus" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into t_system_role_menu
+        (role_id,menu_id,create_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.roleId},
+            #{item.menuId},
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleMenus">
+        delete from t_system_role_menu
+        where role_id = #{id}
+    </delete>
+
+    <select id="getRoleMenuIds" resultType="java.lang.Integer">
+        select
+        menu_id
+        from t_system_role_menu
+        where role_id = #{id}
+    </select>
+</mapper>

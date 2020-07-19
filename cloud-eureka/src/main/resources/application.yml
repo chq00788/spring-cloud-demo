@@ -1,0 +1,20 @@
+server:
+  port: 7001
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    #因为自己是注册中心，不需要自己注册自己
+    register-with-eureka: false
+    #因为自己是注册中心，不需要检索服务
+    fetch-registry: false
+    service-url:
+      # 注册中心服务接口，别的服务需要注册时使用这个接口即可(最好一个斜杠后面的服务名称必须是eureka)
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+  server:
+    # 测试时关闭自我保护机制，保证不可用服务及时踢出
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 2000
+logging:
+  level:
+    com.chq.project.cloud : error

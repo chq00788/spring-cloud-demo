@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.project.cloud.order.dao.TestDao">
+
+    <sql id="baseColumn">
+        id,
+        name,
+        code
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.chq.project.cloud.common.entity.order.TestModel">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+    </resultMap>
+
+    <sql id="selectiveWhere">
+        <where>
+
+        </where>
+    </sql>
+
+
+    <select id="selectList" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_test
+        <include refid="selectiveWhere"/>
+    </select>
+
+    <insert id="insert" parameterType="com.chq.project.cloud.common.entity.order.TestModel">
+        INSERT INTO t_test
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null ">
+                name,
+            </if>
+            <if test="code != null ">
+                code
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null ">
+                #{name},
+            </if>
+            <if test="code != null ">
+                #{code}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.chq.project.cloud.common.entity.order.TestModel">
+        UPDATE t_test
+        <set>
+            <if test="name != null ">
+                name = #{name},
+            </if>
+            <if test="code != null ">
+                code = #{code},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="integer">
+        DELETE FROM t_test
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getById" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_test
+        WHERE id = #{id}
+    </select>
+
+</mapper>
