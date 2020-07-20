@@ -1,0 +1,36 @@
+server:
+  port: 8001
+eureka:
+  client:
+    #注册进eureka
+    register-with-eureka: true
+    #是否从eurekaServer中抓取已有的注册信息，默认为true。单点无所谓，集群必须为true才能配合ribbon使用负载均衡
+    fetch-registry: true
+    service-url:
+      # 注册中心服务接口
+      defaultZone: http://localhost:7001/eureka
+logging:
+  level:
+    com.chq.project.cloud : debug
+spring:
+  application:
+    name: system
+  datasource:
+    url: jdbc:mysql://39.106.0.169:3306/my_frame?serverTimezone=UTC&useSSL=true&useUnicode=true&characterEncoding=utf-8
+    password: my_frame
+    username: my_frame
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+feign:
+  hystrix:
+    enabled: true # feign熔断器开关
+pagehelper:
+  # 指定数据库
+  helper-dialect: mysql
+  # 默认是false。启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages（最大页数）会查询最后一页。禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据
+  reasonable: false
+  # 是否支持接口参数来传递分页参数，默认false
+  support-methods-arguments: true
+  # 为了支持startPage(Object params)方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值， 可以配置 pageNum,pageSize,count,pageSizeZero,reasonable，不配置映射的用默认值， 默认值为pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
+  params: count=countSql
+  row-bounds-with-count: true
